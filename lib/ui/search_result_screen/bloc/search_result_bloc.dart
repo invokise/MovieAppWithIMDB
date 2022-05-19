@@ -22,13 +22,6 @@ class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
       final movie = await _repository.getMovieYouSearch(event.title);
       List<MoviesTitle> moviesTitle = [];
 
-      for (int index = 0; index < movie.results!.length; index++) {
-        if (movie.results?[index].id != null) {
-          final movieTitle = await _repository
-              .getMoviesTitle(movie.results![index].id.toString());
-          moviesTitle.add(movieTitle);
-        }
-      }
       for (Results results in movie.results!) {
         if (results.id != null) {
           final movieTitle =

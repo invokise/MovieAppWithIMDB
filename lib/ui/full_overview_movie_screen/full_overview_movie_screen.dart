@@ -17,12 +17,6 @@ class FullOverviewMovie extends StatelessWidget {
             centerTitle: true,
             backgroundColor: const Color.fromRGBO(3, 37, 65, 1),
             title: const Text('Full Overview'),
-            // leading: IconButton(
-            //   icon: const Icon(Icons.arrow_back),
-            //   onPressed: () {
-            //     Navigator.of(context).pop();
-            //   },
-            // ),
           ),
           body: BlocBuilder<FullOverviewMovieBloc, FullOverviewMovieState>(
               builder: (context, state) {
