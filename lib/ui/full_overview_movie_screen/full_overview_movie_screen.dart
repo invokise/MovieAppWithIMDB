@@ -33,13 +33,13 @@ class FullOverviewMovie extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: constraints.maxHeight / 2.2,
-                          width: constraints.maxWidth / 2.5,
+                          width: constraints.maxWidth / 2.3,
                           child: Image.network(
                             moviesTitle.image.toString(),
                             errorBuilder: (_, __, ___) {
                               return Image.asset(
-                                'assets/background.png',
-                                fit: BoxFit.fill,
+                                'assets/plug.jpg',
+                                fit: BoxFit.cover,
                               );
                             },
                           ),

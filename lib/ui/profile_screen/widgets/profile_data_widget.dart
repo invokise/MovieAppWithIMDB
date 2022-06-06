@@ -15,9 +15,11 @@ class ProfileDataWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-          child: ProfileAvatarWidget(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+          child: ProfileAvatarWidget(
+            user: user,
+          ),
         ),
         const SizedBox(
           height: 25,
