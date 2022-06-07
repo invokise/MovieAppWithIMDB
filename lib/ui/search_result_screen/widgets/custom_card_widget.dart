@@ -29,7 +29,7 @@ class CustomCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: cardConstraints * 0.8,
+                height: cardConstraints * 0.75,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(15)),
                 child: ClipRRect(
@@ -40,7 +40,7 @@ class CustomCardWidget extends StatelessWidget {
                       pathImage,
                       errorBuilder: (_, __, ___) {
                         return Image.asset(
-                          'assets/background.png',
+                          'assets/plug.jpg',
                           fit: BoxFit.fill,
                         );
                       },
@@ -51,33 +51,35 @@ class CustomCardWidget extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: constraints.maxWidth * 0.5,
-                    child: Center(
-                      child: Text(
-                        nameFilm,
-                        style: AppTextStyles.blackBold15,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: constraints.maxWidth * 0.8,
+                      child: Center(
+                        child: Text(
+                          nameFilm,
+                          style: AppTextStyles.blackBold15,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Text(dataRelease),
-                  Flexible(
-                    child: SizedBox(
-                      width: constraints.maxWidth * 0.5,
-                      child: Text(
-                        description,
-                        maxLines: 6,
-                        overflow: TextOverflow.ellipsis,
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Text(dataRelease),
+                    Flexible(
+                      child: SizedBox(
+                        width: constraints.maxWidth * 0.5,
+                        child: Text(
+                          description,
+                          maxLines: 6,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

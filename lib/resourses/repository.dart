@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:filmoteka/models/movies_model/movies_model.dart';
 import 'package:filmoteka/models/movies_title_model/movies_title_model.dart';
 import 'package:filmoteka/models/search_movie_model/search_movie_model.dart';
@@ -13,15 +11,7 @@ class Repository {
   final cacheService = CacheService();
 
   Future<Movies> getPopularMovies() async {
-    if (CacheService.haveNotData()) {
-      final response = await movieApiProvider.getPopularMovies();
-      final movie = jsonEncode(response);
-      cacheService.saveMovies(movie);
-
-      return response;
-    } else {
-      return CacheService().getMovies();
-    }
+    return await movieApiProvider.getPopularMovies();
   }
 
   Future<Movies> getTopRatedMovies() async {
