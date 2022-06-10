@@ -1,7 +1,7 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:filmoteka/services/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileAvatarWidget extends StatefulWidget {
   const ProfileAvatarWidget({
@@ -15,15 +15,24 @@ class ProfileAvatarWidget extends StatefulWidget {
 
 class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
   final storage = Storage();
-  final picker = ImagePicker();
-
   String? userPhoto;
 
   @override
-  Widget build(BuildContext context) {
-    final user = widget.user;
-    userPhoto = user!.photoURL;
+  void initState() {
+    userPhoto = widget.user!.photoURL;
+    super.initState();
+  }
 
+  void showSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Image file not selected'),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,19 +41,27 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
           children: [
             InkWell(
               onTap: () async {
-                final image =
-                    await picker.pickImage(source: ImageSource.gallery);
-                if (image == null) return;
-                storage.deleteImage(user.photoURL!
-                    .substring(91, user.photoURL!.lastIndexOf('?')));
-                storage.deleteImage(user.photoURL!);
+                final results = await FilePicker.platform.pickFiles(
+                  allowedExtensions: ['jpg', 'png'],
+                  type: FileType.custom,
+                  allowMultiple: false,
+                );
+                if (results == null) {
+                  showSnackbar();
+                  return;
+                }
 
-                final imagePath = image.path;
-                final imageName = image.name;
-                await storage.uploadImage(imagePath, imageName);
-                final newUserPhoto = await storage.downloadImage(imageName);
-                await user.updatePhotoURL(newUserPhoto);
-                userPhoto = user.photoURL;
+                final imagePath = results.files.single.path!;
+                final userEmail = widget.user!.email!;
+
+                final imageName = results.files.single.name;
+                final extension = imageName.split('.').last;
+
+                await storage.uploadImage(imagePath, userEmail, extension);
+                final newUserPhoto =
+                    await storage.downloadImage(userEmail, extension);
+                await widget.user!.updatePhotoURL(newUserPhoto);
+                userPhoto = newUserPhoto;
                 setState(() {});
               },
               child: CircleAvatar(
@@ -79,101 +96,3 @@ class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
     );
   }
 }
-
-
-
-
-// import 'package:filmoteka/services/storage_service.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-
-// class ProfileAvatarWidget extends StatefulWidget {
-//   const ProfileAvatarWidget({
-//     Key? key,
-//     required this.user,
-//   }) : super(key: key);
-//   final User? user;
-//   @override
-//   State<ProfileAvatarWidget> createState() => _ProfileAvatarWidgetState();
-// }
-
-// class _ProfileAvatarWidgetState extends State<ProfileAvatarWidget> {
-//   final storage = Storage();
-//   final picker = ImagePicker();
-//   String? userPhoto;
-
-//   @override
-//   void initState() {
-//     userPhoto = widget.user!.photoURL;
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final user = widget.user;
-//     userPhoto = user!.photoURL;
-
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Row(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             InkWell(
-//               onTap: () async {
-//                 final image =
-//                     await picker.pickImage(source: ImageSource.gallery);
-//                 if (image == null) return;
-
-//                 storage.deleteImage(user.photoURL!);
-
-//                 final imagePath = image.path;
-//                 final imageName = image.name;
-//                 await storage.uploadImage(imagePath, imageName);
-//                 userPhoto = user.photoURL;
-//                 await user.updatePhotoURL(userPhoto);
-//                 await storage.downloadImage(imageName);
-//                 setState(() {
-//                   userPhoto = user.photoURL;
-//                 });
-//               },
-//               child: FutureBuilder(
-//                 future: storage.downloadImage(userPhoto!),
-//                 builder: (context, snapshot) {
-//                   return CircleAvatar(
-//                       backgroundImage: snapshot.data == null ||
-//                               snapshot.data.toString().isEmpty
-//                           ? Image.asset('assets/plug.jpg').image
-//                           : NetworkImage(snapshot.data.toString()),
-//                       radius: 34);
-//                 },
-//               ),
-//             ),
-//             const SizedBox(
-//               width: 15,
-//             ),
-//             Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: const [
-//                 SizedBox(
-//                   height: 5,
-//                 ),
-//                 Text(
-//                   'Avatar',
-//                 ),
-//                 SizedBox(
-//                   height: 5,
-//                 ),
-//                 Text(
-//                   'Click on the picture to change it',
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
-

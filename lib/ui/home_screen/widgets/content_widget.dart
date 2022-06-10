@@ -24,7 +24,7 @@ class ContentWidget extends StatelessWidget {
             width: 15,
           ),
           scrollDirection: Axis.horizontal,
-          itemCount: movies.items!.length,
+          itemCount: 30,
           itemBuilder: (context, index) {
             return SizedBox(
               width: 100,
@@ -47,11 +47,12 @@ class ContentWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: AspectRatio(
                         aspectRatio: 0.7,
-                        child: movies.items?[index].image != null
-                            ? CachedNetworkImage(
-                                imageUrl: movies.items![index].image.toString(),
-                              )
-                            : Container(),
+                        child: CachedNetworkImage(
+                          imageUrl: movies.items![index].image.toString(),
+                          errorWidget: (_, __, ___) {
+                            return Container();
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(

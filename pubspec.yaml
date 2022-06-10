@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.17.3 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -27,28 +27,26 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cached_network_image: ^3.2.0
-  camera: ^0.9.5+1
-  cloud_firestore: ^3.1.15
-  cupertino_icons: ^1.0.2
+  cached_network_image: ^3.2.1
+  cloud_firestore: ^3.1.17
   email_validator: ^2.0.1
-  firebase_auth: ^3.3.18
-  firebase_core: ^1.17.0
+  file_picker: ^4.6.1
+  firebase_auth: ^3.3.19
+  firebase_core: ^1.17.1
   firebase_storage: ^10.2.17
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_dotenv: ^5.0.2
   http: ^0.13.4
-  image_picker: ^0.8.5+3
   json_annotation: ^4.5.0
   path: ^1.8.1
-  path_provider: ^2.0.8
-  provider: ^6.0.2
-  shared_preferences: ^2.0.12
+  path_provider: ^2.0.11
+  provider: ^6.0.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
-  build_runner: ^2.1.7
+  build_runner: ^2.1.11
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
@@ -68,7 +66,6 @@ flutter:
   assets:
     - assets/plug.jpg
     - assets/main.jpg
-    - assets/prof.jpg
     - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
